@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
 interface todo {
@@ -30,8 +30,24 @@ export default function Home() {
       completed: false
     }
   ])
-  const [hideCompleted, setHideCompleted] = useState<boolean>(false)
   const [isShowing, setIsShowing] = useState<FilterOptions>('all')
+  const [filteredTodos, setFilteredTodos] = useState<todo[]>([])
+
+  console.log(isShowing);
+
+  useEffect(() => {
+    let filteredTodos: todo[] = []
+    if (isShowing == 'all') {
+      filteredTodos = [...todos]
+    } else if (isShowing == 'active') {
+      const newTodos = todos.filter(todo => !todo.completed)
+      filteredTodos = [...newTodos]
+    } else {
+      const newTodos = todos.filter(todo => todo.completed)
+      filteredTodos = [...newTodos]
+    }
+    setFilteredTodos(filteredTodos);
+  }, [isShowing, todos])
 
   const addTodoHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -73,23 +89,17 @@ export default function Home() {
         <button type="submit">Add Todo</button>
       </form>
       <div>
-        {todos.filter(todo => {
-              if(!hideCompleted) {
-                return true
-              } else {
-                return todo.completed
-              }
-            }).map(todo => {
-              return (
-                <div className="flex" key={todo.id}>
-                  <button><Image onClick={() => completeTodoHandler(todo.id)} src="/icon-check.svg" alt="check" width='12' height='12'/></button>
-                  <div className="flex">
-                    <p>{todo.text}</p>
-                    <button><Image onClick={() => deleteTodoHandler(todo.id)} src="/icon-cross.svg" alt="delete" width='12' height='12'/></button>
+        {filteredTodos.map(todo => {
+                return (
+                  <div className="flex" key={todo.id}>
+                    <button><Image onClick={() => completeTodoHandler(todo.id)} src="/icon-check.svg" alt="check" width='12' height='12'/></button>
+                    <div className="flex">
+                      <p>{todo.text}</p>
+                      <button><Image onClick={() => deleteTodoHandler(todo.id)} src="/icon-cross.svg" alt="delete" width='12' height='12'/></button>
+                    </div>
                   </div>
-                </div>
-              )
-            })}
+                )
+              })}
       </div>
       <div>
         <button onClick={() => setIsShowing('all')}>All</button>
