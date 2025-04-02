@@ -26,10 +26,17 @@ export default function Home() {
       completed: false
     }
   ])
+  const [hideCompleted, setHideCompleted] = useState<boolean>(true)
 
   return (
     <div>
-      {todos.map(todo => <div key={todo.id}>{todo.text}</div>)}
+      {todos.filter(todo => {
+            if(!hideCompleted) {
+              return true
+            } else {
+              return todo.completed
+            }
+          }).map(todo => <div key={todo.id}>{todo.text}</div>)}
     </div>
   );
 }
