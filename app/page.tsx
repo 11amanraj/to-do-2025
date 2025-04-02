@@ -9,6 +9,8 @@ interface todo {
   completed: boolean,
 }
 
+type FilterOptions = "all" | "active" | "completed";
+
 export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null)
   const [todos, setTodos] = useState<todo[]>([
@@ -29,6 +31,7 @@ export default function Home() {
     }
   ])
   const [hideCompleted, setHideCompleted] = useState<boolean>(false)
+  const [isShowing, setIsShowing] = useState<FilterOptions>('all')
 
   const addTodoHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -87,6 +90,11 @@ export default function Home() {
                 </div>
               )
             })}
+      </div>
+      <div>
+        <button onClick={() => setIsShowing('all')}>All</button>
+        <button onClick={() => setIsShowing('active')}>Active</button>
+        <button onClick={() => setIsShowing('completed')}>Completed</button>
       </div>
     </div>
   );
