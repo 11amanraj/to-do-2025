@@ -78,10 +78,10 @@ export default function Home() {
           }).map(todo => {
             return (
               <div className="flex">
-                <button><Image src="/icon-check.svg" alt="check" width='12' height='12'/></button>
+                <button><Image onClick={() => completeTodoHandler(todo.id)} src="/icon-check.svg" alt="check" width='12' height='12'/></button>
                 <div className="flex">
                   <p key={todo.id}>{todo.text}</p>
-                  <button><Image src="/icon-cross.svg" alt="check" width='12' height='12'/></button>
+                  <button><Image onClick={() => deleteTodoHandler(todo.id)} src="/icon-cross.svg" alt="delete" width='12' height='12'/></button>
                 </div>
               </div>
             )
