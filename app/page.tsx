@@ -43,9 +43,19 @@ export default function Home() {
     }
   }
 
-  const completeTodoHandler = () => {}
+  const completeTodoHandler = (id: string) => {
+    const updatedTodos = todos.map(todo => {
+      if(todo.id === id) {
+        return {...todo, completed: !todo.completed}
+      } else return todo
+    })
+    setTodos([...updatedTodos])
+  }
 
-  const deleteTodoHandler = () => {}
+  const deleteTodoHandler = (id: string) => {
+    const updatedTodos = todos.filter(todo => todo.id !== id)
+    setTodos([...updatedTodos])
+  }
 
   return (
     <div>
