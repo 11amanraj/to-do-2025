@@ -69,23 +69,25 @@ export default function Home() {
         />
         <button type="submit">Add Todo</button>
       </form>
-      {todos.filter(todo => {
-            if(!hideCompleted) {
-              return true
-            } else {
-              return todo.completed
-            }
-          }).map(todo => {
-            return (
-              <div className="flex">
-                <button><Image onClick={() => completeTodoHandler(todo.id)} src="/icon-check.svg" alt="check" width='12' height='12'/></button>
-                <div className="flex">
-                  <p key={todo.id}>{todo.text}</p>
-                  <button><Image onClick={() => deleteTodoHandler(todo.id)} src="/icon-cross.svg" alt="delete" width='12' height='12'/></button>
+      <div>
+        {todos.filter(todo => {
+              if(!hideCompleted) {
+                return true
+              } else {
+                return todo.completed
+              }
+            }).map(todo => {
+              return (
+                <div className="flex" key={todo.id}>
+                  <button><Image onClick={() => completeTodoHandler(todo.id)} src="/icon-check.svg" alt="check" width='12' height='12'/></button>
+                  <div className="flex">
+                    <p>{todo.text}</p>
+                    <button><Image onClick={() => deleteTodoHandler(todo.id)} src="/icon-cross.svg" alt="delete" width='12' height='12'/></button>
+                  </div>
                 </div>
-              </div>
-            )
-          })}
+              )
+            })}
+      </div>
     </div>
   );
 }
